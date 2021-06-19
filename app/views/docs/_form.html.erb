@@ -1,4 +1,4 @@
-<%= form_with(model: doc, local: true) do |form| %>
+<%= form_with(model: doc, local: true, html: {:'id' => 'form'}) do |form| %>
   <% if doc.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(doc.errors.count, "error") %> prohibited this doc from being saved:</h2>
@@ -24,4 +24,34 @@
   <div class="actions">
     <%= form.submit %>
   </div>
+  use form submit: <input type="checkbox" id="checkbox" />
 <% end %>
+<script>
+  window.onload = () => {
+    const xcsrfTokenField = document.getElementsByName("authenticity_token")[0];
+    const titleInput = document.getElementById("doc_titile");
+    const contentInput = document.getElementById("doc_content");
+    const checkboxInput = document.getElementById("checkbox");
+    async function postData(evt) {
+      evt.preventDefault();
+      evt.stopPropagation();
+      if (checkboxInput.checked) {
+        evt.currentTarget.submit();
+      }
+
+      return fetch("/docs", {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': xcsrfTokenField.value
+        },
+        body: JSON.stringify({
+          title: titleInput.value,
+          content: contentInput.value
+        })
+      });
+    }
+    document.getElementById("form").addEventListener("submit", postData);
+  }
+</script>

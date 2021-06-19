@@ -23,6 +23,7 @@ class DocsController < ApplicationController
   def create
     @doc = Doc.new(doc_params)
 
+    raise "test exception"
     respond_to do |format|
       if @doc.save
         format.html { redirect_to @doc, notice: "Doc was successfully created." }
