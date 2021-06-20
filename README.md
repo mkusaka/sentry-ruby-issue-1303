@@ -12,7 +12,7 @@ bundle exec rails s
 open localhost:3000/docs/new
 ```
 
-3. create new docs with non-ascii string, then issue 1303 error occurred. (Runtime error occurred at controller, but error cannot report to sentry server.)
+3. create new docs with non-ascii string, then issue 1475 error occurred. (Runtime error occurred at controller, but error cannot report to sentry server.)
   - For example, title: `あ`, content: `a`
 
 # example stack traces
